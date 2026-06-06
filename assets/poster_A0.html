@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poster A0 - Pendinginan Newton</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+  :root {
+    --bg-dark: #0a1128;
+    --bg-panel: #16264c;
+    --text-main: #f0f4f8;
+    --text-muted: #94a3b8;
+    --accent-blue: #38bdf8;
+    --accent-gold: #fbbf24;
+    --border-color: #2dd4bf;
+  }
+  
+  html {
+    font-size: 24px;
+  }
+
+  body {
+    margin: 0;
+    padding: 50px;
+    background-color: #1e293b;
+    display: flex;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .poster {
+    width: 841mm;
+    height: 1189mm;
+    background: linear-gradient(135deg, var(--bg-dark) 0%, #000000 100%);
+    color: var(--text-main);
+    padding: 30mm;
+    box-sizing: border-box;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Decorative background elements */
+  .poster::before {
+    content: '';
+    position: absolute;
+    top: -10%; left: -10%; width: 50%; height: 50%;
+    background: radial-gradient(circle, rgba(56,189,248,0.08) 0%, transparent 70%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .poster::after {
+    content: '';
+    position: absolute;
+    bottom: -10%; right: -10%; width: 50%; height: 50%;
+    background: radial-gradient(circle, rgba(251,191,36,0.05) 0%, transparent 70%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .content-wrapper {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  /* Header Section */
+  .header {
+    text-align: center;
+    margin-bottom: 15mm;
+    border-bottom: 4px solid var(--accent-blue);
+    padding-bottom: 10mm;
+    position: relative;
+  }
+  
+  .header h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--accent-blue);
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  }
+
+  .header h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--accent-gold);
+    margin: 0 0 20px 0;
+  }
+
+  .abstract {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-left: 6px solid var(--accent-gold);
+    padding: 15px 25px;
+    font-size: 1.1rem;
+    max-width: 85%;
+    margin: 0 auto;
+    text-align: justify;
+    line-height: 1.6;
+    border-radius: 0 8px 8px 0;
+  }
+
+  /* Main Grid */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15mm;
+    flex: 1;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    gap: 15mm;
+  }
+
+  /* Section Styling */
+  .section {
+    background: rgba(22, 38, 76, 0.8);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 12px;
+    padding: 15mm;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #ffffff;
+    background: linear-gradient(90deg, var(--accent-blue) 0%, transparent 100%);
+    padding: 10px 20px;
+    margin: -15mm -15mm 10mm -15mm;
+    border-radius: 12px 12px 0 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--accent-blue);
+  }
+
+  /* Typography within sections */
+  p, li {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  ul {
+    padding-left: 30px;
+  }
+
+  .math-block {
+    background: rgba(0,0,0,0.3);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    text-align: center;
+    font-size: 1.2rem;
+    overflow-x: auto;
+    border: 1px dashed rgba(255,255,255,0.1);
+  }
+
+  .highlight {
+    color: var(--accent-gold);
+    font-weight: 600;
+  }
+
+  /* Table Styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 1rem;
+  }
+  
+  th, td {
+    padding: 12px 10px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  th {
+    background-color: rgba(56, 189, 248, 0.2);
+    color: var(--accent-blue);
+    font-weight: 700;
+  }
+
+  tr:nth-child(even) {
+    background-color: rgba(255,255,255,0.02);
+  }
+
+  /* Specific styles for new graph */
+  .graph-container {
+    width: 100%;
+    text-align: center;
+    margin: 20px 0;
+    background: #fff; /* added white background in case image is transparent */
+    border-radius: 8px;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  .graph-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+  }
+
+  .insight-box {
+    background: rgba(251, 191, 36, 0.1);
+    border-left: 5px solid var(--accent-gold);
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 0 8px 8px 0;
+  }
+  
+  .insight-box h4 {
+    margin: 0 0 10px 0;
+    color: var(--accent-gold);
+    font-size: 1.2rem;
+  }
+
+  /* Footer */
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 10mm;
+    border-top: 2px solid rgba(255,255,255,0.1);
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+  .badge-blue { background: rgba(56,189,248,0.2); color: var(--accent-blue); border: 1px solid rgba(56,189,248,0.4); }
+
+  /* Flow Diagram */
+  .flow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    font-size: 0.95rem;
+    line-height: 1.3;
+  }
+  .flow-step .circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    color: var(--bg-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    font-size: 1.4rem;
+    margin: 0 auto 12px auto;
+    box-shadow: 0 0 15px rgba(56,189,248,0.5);
+  }
+  .flow-arrow {
+    font-size: 2rem;
+    color: var(--accent-gold);
+    margin: 0 5px;
+    margin-top: 15px; /* Align visually with circle */
+  }
+
+  /* Print Specific */
+  @media print {
+    @page { size: A0 portrait; margin: 0; }
+    body { margin: 0; padding: 0; background: none; }
+    .poster { box-shadow: none; border: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="poster">
+  <div class="content-wrapper">
+    <!-- Header -->
+    <div class="header">
+      <h1>PENDINGINAN NEWTON DENGAN GAUSSIAN QUADRATURE DAN METODE TRAPESIUM</h1>
+      <h2>Estimasi Energi Panas Hilang pada Fluida yang Sama dengan Suhu Lingkungan Berbeda</h2>
+      <div class="abstract">
+        <strong>ABSTRAK:</strong> Penelitian ini menganalisis proses pendinginan Newton pada fluida yang sama dengan variasi suhu lingkungan. Energi panas hilang dihitung secara numerik menggunakan metode Trapesium dan Gaussian Quadrature (2 titik). Hasil menunjukkan bahwa Gaussian Quadrature memiliki akurasi lebih tinggi dibanding metode Trapesium untuk jumlah partisi yang sama.
+      </div>
+    </div>
+
+    <!-- Main Layout Grid -->
+    <div class="main-grid">
+      
+      <!-- LEFT COLUMN -->
+      <div class="column">
+        
+        <!-- Latar Belakang -->
+        <div class="section">
+          <div class="section-title">Latar Belakang</div>
+          <p>Proses pendinginan banyak terjadi dalam kehidupan sehari-hari, seperti kopi yang dibiarkan di ruangan ber-AC, di kelas, di luar ruangan, atau di dekat mesin. Laju pendinginan dipengaruhi oleh perbedaan suhu antara fluida dan lingkungan sekitarnya.</p>
+          <p><strong>Hukum Pendinginan Newton:</strong></p>
+          <div class="math-block">
+            $$ \frac{dT}{dt} = -k (T - T_{env}) $$
+          </div>
+          <p><strong>Solusi analitik:</strong></p>
+          <div class="math-block">
+            $$ T(t) = T_{env} + (T_0 - T_{env})e^{-kt} $$
+          </div>
+          <p><strong>Laju perpindahan panas:</strong></p>
+          <div class="math-block">
+            $$ q(t) = h(T(t) - T_{env}) $$
+          </div>
+          <p><strong>Energi panas hilang selama waktu \( t_f \):</strong></p>
+          <div class="math-block">
+            $$ Q = \int_0^{t_f} h(T(t) - T_{env}) dt $$
+          </div>
+          <ul style="margin-bottom: 0;">
+            <li>\( T \): Suhu fluida (°C)</li>
+            <li>\( T_{env} \): Suhu lingkungan (°C)</li>
+            <li>\( T_0 \): Suhu awal fluida (°C)</li>
+            <li>\( k \): Koefisien pendinginan (menit\(^{-1}\))</li>
+            <li>\( h \): Koefisien perpindahan panas (W/°C)</li>
+          </ul>
+        </div>
+
+        <!-- Metode Numerik -->
+        <div class="section">
+          <div class="section-title">Metode Numerik</div>
+          <p><strong>1. Metode Trapesium</strong></p>
+          <div class="math-block">
+            $$ Q \approx h \left[ \frac{1}{2}f(t_0) + \sum_{i=1}^{n-1} f(t_i) + \frac{1}{2}f(t_n) \right] \Delta t $$
+          </div>
+          <p>dengan \( f(t_i) = T(t_i) - T_{env} \), \( \Delta t = \frac{t_f - t_0}{n} \)</p>
+          
+          <p><strong>2. Gaussian Quadrature (2 titik)</strong></p>
+          <div class="math-block">
+            $$ Q \approx \sum_{j=1}^n \frac{\Delta t}{2} \sum_{i=1}^2 w_i f(t_{j,i}) $$
+          </div>
+          <p>dengan titik dan bobot (interval standar [-1,1]):</p>
+          <ul>
+            <li>\( i=1, \xi_1 = -\frac{1}{\sqrt{3}}, w_1 = 1 \)</li>
+            <li>\( i=2, \xi_2 = \frac{1}{\sqrt{3}}, w_2 = 1 \)</li>
+          </ul>
+          <p><strong>Penerapan komposit:</strong> interval \( [0, t_f] \) dibagi menjadi \( n \) subinterval dan Gaussian 2 titik diterapkan pada setiap subinterval.</p>
+          <p class="highlight" style="margin-bottom: 0; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1);">
+            💡 Gaussian Quadrature 2 titik memiliki akurasi \( O(h^4) \), sedangkan Trapesium \( O(h^2) \).
+          </p>
+        </div>
+
+        <!-- Kasus yang Dikaji -->
+        <div class="section">
+          <div class="section-title">Kasus yang Dikaji</div>
+          <p>Fluida yang digunakan sama (misal: kopi). Parameter konstan:</p>
+          <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px;">
+            <span class="badge badge-blue">\( T_0 = 90^\circ\text{C} \)</span>
+            <span class="badge badge-blue">\( k = 0.03 \text{ menit}^{-1} \)</span>
+            <span class="badge badge-blue">\( h = 10 \text{ W/}^\circ\text{C} \)</span>
+            <span class="badge badge-blue">\( t_f = 60 \text{ menit} \)</span>
+          </div>
+          <p><strong>Variasi suhu lingkungan (\( T_{env} \)):</strong></p>
+          <table style="margin-top: 5px;">
+            <tr><th>No.</th><th>Kasus</th><th>\( T_{env} \) (°C)</th><th>Deskripsi</th></tr>
+            <tr><td>1</td><td>AC Dingin</td><td>20</td><td>Ruangan ber-AC dingin</td></tr>
+            <tr><td>2</td><td>Ruang Kelas</td><td>25</td><td>Ruangan kelas/ruang biasa</td></tr>
+            <tr><td>3</td><td>Ruang Panas</td><td>30</td><td>Ruangan lebih hangat</td></tr>
+            <tr><td>4</td><td>Outdoor</td><td>35</td><td>Lingkungan luar ruangan</td></tr>
+            <tr><td>5</td><td>Dekat Mesin</td><td>40</td><td>Dekat sumber panas/mesin</td></tr>
+          </table>
+        </div>
+
+        <!-- Alur Komputasi -->
+        <div class="section">
+          <div class="section-title">Alur Komputasi</div>
+          <div style="display: flex; align-items: flex-start; justify-content: space-between; width: 100%; margin-top: 10px;">
+            <div class="flow-step">
+              <div class="circle">1</div>
+              <div>Input<br>parameter</div>
+            </div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-step">
+              <div class="circle">2</div>
+              <div>Hitung \( T(t) \)<br>& \( q(t) \)</div>
+            </div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-step">
+              <div class="circle">3</div>
+              <div>Hitung Q<br>(Trap & Gauss)</div>
+            </div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-step">
+              <div class="circle">4</div>
+              <div>Bandingkan<br>nilai</div>
+            </div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-step">
+              <div class="circle">5</div>
+              <div>Hitung error<br>& grafik</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="column">
+        
+        <!-- Hasil dan Pembahasan -->
+        <div class="section">
+          <div class="section-title">Hasil dan Pembahasan</div>
+          
+          <p style="text-align: center; font-weight: bold; margin-bottom: 5px; color: var(--accent-gold);">1. GRAFIK SUHU & ERROR (DATA BARU)</p>
+          <div class="graph-container">
+            <img src="grafik_baru.jpg" alt="Grafik Pendinginan Kopi & Error Gaussian vs Solusi Analitik" onerror="this.onerror=null; this.src='https://via.placeholder.com/1200x500/1e293b/38bdf8?text=Simpan+gambar+grafik+baru+sebagai+grafik_baru.jpg+di+folder+yang+sama';">
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-top: -10px; margin-bottom: 25px;">
+            *Visualisasi baru: Pendinginan Kopi (Kiri) dan Error Gaussian vs Solusi Analitik (Kanan)
+          </p>
+
+          <p style="text-align: center; font-weight: bold; margin-top: 10px; margin-bottom: 5px; color: var(--accent-gold);">2. ENERGI PANAS HILANG (Q) SELAMA 60 MENIT (\( n=100 \))</p>
+          <table style="margin-top: 5px;">
+            <tr>
+              <th>No.</th><th>Kasus</th><th>\( T_{env} \) (°C)</th>
+              <th>Trapesium<br>(J)</th>
+              <th>Gaussian 2 Titik<br>(J)</th>
+              <th>Selisih<br>(|Trap-Gauss|)</th>
+              <th>Selisih<br>Relatif (%)</th>
+            </tr>
+            <tr><td>1</td><td>AC Dingin</td><td>20</td><td>12711.49</td><td>12709.72</td><td>1.77</td><td>0.0139</td></tr>
+            <tr><td>2</td><td>Ruang Kelas</td><td>25</td><td>9761.59</td><td>9759.90</td><td>1.69</td><td>0.0173</td></tr>
+            <tr><td>3</td><td>Ruang Panas</td><td>30</td><td>7638.97</td><td>7637.46</td><td>1.51</td><td>0.0198</td></tr>
+            <tr><td>4</td><td>Outdoor</td><td>35</td><td>5816.35</td><td>5814.98</td><td>1.37</td><td>0.0235</td></tr>
+            <tr><td>5</td><td>Dekat Mesin</td><td>40</td><td>4293.73</td><td>4292.57</td><td>1.16</td><td>0.0270</td></tr>
+          </table>
+
+          <div class="insight-box">
+            <h4>💡 INSIGHT</h4>
+            <ul style="margin-bottom: 0;">
+              <li>Semakin tinggi suhu lingkungan, semakin besar selisih suhu \( (T_0 - T_{env}) \) sehingga pendinginan lebih lambat dan suhu akhir fluida lebih tinggi.</li>
+              <li>Kedua metode menjadi semakin akurat saat jumlah partisi (\( n \)) diperbesar, namun <strong>Gaussian Quadrature (2 titik) konvergen lebih cepat</strong> daripada metode Trapesium.</li>
+              <li>Energi panas hilang semakin kecil ketika suhu lingkungan semakin tinggi karena selisih suhu \( (T_0 - T_{env}) \) semakin kecil.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Kesimpulan -->
+        <div class="section">
+          <div class="section-title">Kesimpulan</div>
+          <ul style="margin-bottom: 0;">
+            <li>Model pendinginan Newton menjelaskan bahwa suhu fluida mendekati suhu lingkungan secara eksponensial.</li>
+            <li>Energi panas hilang berbanding lurus dengan selisih suhu dan koefisien perpindahan panas.</li>
+            <li>Gaussian Quadrature 2 titik (komposit) memberikan error lebih kecil dan konvergensi lebih cepat dibanding metode Trapesium untuk jumlah partisi yang sama.</li>
+            <li>Semakin banyak jumlah partisi, kedua metode semakin akurat, namun Gaussian Quadrature 2 titik lebih efisien secara komputasi.</li>
+          </ul>
+        </div>
+
+        <!-- Aplikasi Nyata -->
+        <div class="section">
+          <div class="section-title">Aplikasi Nyata</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+              <div style="font-size: 1.2rem; margin-bottom: 5px;">🍔 <strong>Makanan & Minuman</strong></div>
+              <div style="font-size: 1rem; color: var(--text-muted);">Prediksi waktu penyajian optimal agar kualitas terjaga.</div>
+            </div>
+            <div>
+              <div style="font-size: 1.2rem; margin-bottom: 5px;">❄️ <strong>Sistem HVAC</strong></div>
+              <div style="font-size: 1rem; color: var(--text-muted);">Optimasi efisiensi pendinginan pada ruangan ber-AC.</div>
+            </div>
+            <div>
+              <div style="font-size: 1.2rem; margin-bottom: 5px;">🏭 <strong>Industri</strong></div>
+              <div style="font-size: 1rem; color: var(--text-muted);">Perancangan sistem pendingin pada mesin dan peralatan industri.</div>
+            </div>
+            <div>
+              <div style="font-size: 1.2rem; margin-bottom: 5px;">💊 <strong>Kesehatan & Farmasi</strong></div>
+              <div style="font-size: 1rem; color: var(--text-muted);">Pengendalian suhu pada penyimpanan obat dan sampel biologis.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Referensi & Info (Split) -->
+        <div class="section" style="display: flex; flex-direction: row; gap: 20px; padding-bottom: 10mm;">
+          <div style="flex: 1.3;">
+            <div class="section-title" style="margin-top: -15mm;">Referensi</div>
+            <ul style="font-size: 0.95rem; margin: 0; padding-left: 20px; color: var(--text-muted);">
+              <li style="margin-bottom: 8px;">Incropera, F. P., et al. (2017). <i>Fundamentals of Heat and Mass Transfer</i>. Wiley.</li>
+              <li style="margin-bottom: 8px;">Chapra, S. C. (2018). <i>Applied Numerical Methods with Python</i>. McGraw-Hill.</li>
+              <li style="margin-bottom: 8px;">Papanastasiou, T. C. (2004). <i>Fluid Mechanics and Thermodynamics</i>. Pearson.</li>
+            </ul>
+          </div>
+          <div style="flex: 1; border-left: 2px dashed rgba(255,255,255,0.2); padding-left: 20px;">
+            <div class="section-title" style="margin-top: -15mm; margin-left: -20px;">Informasi Penelitian</div>
+            <table style="font-size: 0.9rem; margin-top: 0; background: none;">
+              <tr><td style="text-align: left; padding: 6px 0; border: none;"><strong>Model</strong></td><td style="text-align: left; padding: 6px 0; border: none; color: var(--text-muted);">Pendinginan Newton</td></tr>
+              <tr><td style="text-align: left; padding: 6px 0; border: none;"><strong>Metode</strong></td><td style="text-align: left; padding: 6px 0; border: none; color: var(--text-muted);">Trapesium & Gauss 2 Titik</td></tr>
+              <tr><td style="text-align: left; padding: 6px 0; border: none;"><strong>Bahasa</strong></td><td style="text-align: left; padding: 6px 0; border: none; color: var(--text-muted);">Python</td></tr>
+              <tr><td style="text-align: left; padding: 6px 0; border: none;"><strong>Visualisasi</strong></td><td style="text-align: left; padding: 6px 0; border: none; color: var(--text-muted);">Matplotlib</td></tr>
+            </table>
+          </div>
+        </div>
+
+      </div> <!-- End Right Column -->
+
+    </div> <!-- End Main Grid -->
+
+    <!-- Footer -->
+    <div class="footer">
+      <div><strong>Penulis:</strong> Hendra Tryana</div>
+      <div><strong>Tanggal:</strong> 5 Mei 2026</div>
+      <div style="color: var(--accent-blue); font-weight: bold;">A0 - Poster Ilmiah</div>
+    </div>
+
+  </div> <!-- End Content Wrapper -->
+</div>
+
+</body>
+</html>

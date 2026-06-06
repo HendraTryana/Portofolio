@@ -1,29 +1,473 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hendra Catur Tryana | Physics & Tech</title>
+    <title>SYSTEM MAINTENANCE — hendratryy.me</title>
+    <meta name="description" content="System is currently under maintenance. Recompiling backend algorithms and physics simulation modules.">
+    <meta name="author" content="Hendra Catur Tryana">
+    <meta name="robots" content="noindex, nofollow">
+
     <style>
-        body { 
-            background-color: #0f0f0f; 
-            color: #00ff00; 
-            font-family: 'Courier New', Courier, monospace; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
-            margin: 0; 
+        /* ════════════════════════════════════════════════
+           RESET & BASE
+           ════════════════════════════════════════════════ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1 { border-bottom: 2px solid #00ff00; }
-        .contact { color: #00d4ff; text-decoration: none; }
+
+        :root {
+            --bg-terminal: #0d1117;
+            --bg-black: #000000;
+            --neon-green: #00ff00;
+            --neon-green-dim: #00cc00;
+            --neon-green-dark: #00991a;
+            --neon-green-subtle: #003d0a;
+            --text-dim: #338833;
+            --text-comment: #2a5a2a;
+            --amber: #ffaa00;
+            --red-alert: #ff3333;
+            --font-terminal: 'Fira Code', 'Consolas', 'Courier New', Courier, monospace;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-terminal);
+            background-color: var(--bg-terminal);
+            color: var(--neon-green);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            position: relative;
+        }
+
+        ::selection {
+            background: var(--neon-green);
+            color: var(--bg-terminal);
+        }
+
+        /* ════════════════════════════════════════════════
+           CRT SCANLINE OVERLAY
+           ════════════════════════════════════════════════ */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.12) 0px,
+                rgba(0, 0, 0, 0.12) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+        }
+
+        /* Subtle vignette */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9998;
+            background: radial-gradient(
+                ellipse at center,
+                transparent 50%,
+                rgba(0, 0, 0, 0.5) 100%
+            );
+        }
+
+        /* ════════════════════════════════════════════════
+           GLOW TEXT UTILITY
+           ════════════════════════════════════════════════ */
+        .glow {
+            text-shadow:
+                0 0 4px var(--neon-green),
+                0 0 10px rgba(0, 255, 0, 0.4),
+                0 0 20px rgba(0, 255, 0, 0.15);
+        }
+
+        .glow-strong {
+            text-shadow:
+                0 0 5px var(--neon-green),
+                0 0 15px rgba(0, 255, 0, 0.6),
+                0 0 30px rgba(0, 255, 0, 0.3),
+                0 0 50px rgba(0, 255, 0, 0.1);
+        }
+
+        .glow-amber {
+            text-shadow:
+                0 0 4px var(--amber),
+                0 0 10px rgba(255, 170, 0, 0.4),
+                0 0 20px rgba(255, 170, 0, 0.15);
+        }
+
+        /* ════════════════════════════════════════════════
+           BLINKING CURSOR
+           ════════════════════════════════════════════════ */
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .cursor {
+            display: inline-block;
+            animation: blink 1s step-end infinite;
+            color: var(--neon-green);
+            text-shadow:
+                0 0 5px var(--neon-green),
+                0 0 15px rgba(0, 255, 0, 0.5);
+        }
+
+        /* ════════════════════════════════════════════════
+           FLICKER ON ANIMATION (page load)
+           ════════════════════════════════════════════════ */
+        @keyframes flicker-in {
+            0%   { opacity: 0; }
+            5%   { opacity: 0.6; }
+            10%  { opacity: 0.2; }
+            15%  { opacity: 0.9; }
+            20%  { opacity: 0.4; }
+            30%  { opacity: 1; }
+            40%  { opacity: 0.8; }
+            50%  { opacity: 1; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes slide-in {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse-bar {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* ════════════════════════════════════════════════
+           MAIN TERMINAL CONTAINER
+           ════════════════════════════════════════════════ */
+        .terminal {
+            width: 90%;
+            max-width: 680px;
+            padding: 2.5rem 2rem;
+            position: relative;
+            z-index: 1;
+            animation: flicker-in 1.2s ease-out forwards;
+        }
+
+        /* ════════════════════════════════════════════════
+           SYSTEM STATUS HEADER
+           ════════════════════════════════════════════════ */
+        .terminal__header {
+            margin-bottom: 2rem;
+        }
+
+        .terminal__prompt {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.08em;
+            margin-bottom: 0.6rem;
+            animation: slide-in 0.5s ease 0.3s both;
+        }
+
+        .terminal__status {
+            font-size: clamp(1rem, 3.5vw, 1.5rem);
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            line-height: 1.4;
+            animation: slide-in 0.5s ease 0.5s both;
+        }
+
+        .terminal__status .bracket {
+            color: var(--neon-green-dark);
+        }
+
+        /* ════════════════════════════════════════════════
+           DIVIDER
+           ════════════════════════════════════════════════ */
+        .terminal__divider {
+            border: none;
+            height: 1px;
+            background: var(--neon-green-subtle);
+            margin: 1.5rem 0;
+            animation: slide-in 0.5s ease 0.7s both;
+        }
+
+        /* ════════════════════════════════════════════════
+           LOG MESSAGES
+           ════════════════════════════════════════════════ */
+        .terminal__log {
+            margin-bottom: 2rem;
+        }
+
+        .log-line {
+            font-size: 0.78rem;
+            line-height: 1.85;
+            color: var(--neon-green-dim);
+            letter-spacing: 0.02em;
+        }
+
+        .log-line--1 { animation: slide-in 0.4s ease 0.9s both; }
+        .log-line--2 { animation: slide-in 0.4s ease 1.1s both; }
+        .log-line--3 { animation: slide-in 0.4s ease 1.3s both; }
+        .log-line--4 { animation: slide-in 0.4s ease 1.5s both; }
+        .log-line--5 { animation: slide-in 0.4s ease 1.7s both; }
+        .log-line--6 { animation: slide-in 0.4s ease 1.9s both; }
+
+        .log-line .timestamp {
+            color: var(--text-comment);
+        }
+
+        .log-line .level-info {
+            color: var(--neon-green);
+        }
+
+        .log-line .level-warn {
+            color: var(--amber);
+        }
+
+        .log-line .level-ok {
+            color: var(--neon-green);
+            font-weight: 700;
+        }
+
+        .log-line .module {
+            color: var(--text-dim);
+        }
+
+        /* ════════════════════════════════════════════════
+           ASCII PROGRESS BAR
+           ════════════════════════════════════════════════ */
+        .progress-section {
+            margin-bottom: 2.5rem;
+            animation: slide-in 0.5s ease 2.1s both;
+        }
+
+        .progress__label {
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            letter-spacing: 0.12em;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress__bar {
+            font-size: clamp(0.75rem, 2vw, 0.95rem);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            animation: pulse-bar 3s ease-in-out infinite;
+        }
+
+        .progress__bar .filled {
+            color: var(--neon-green);
+        }
+
+        .progress__bar .empty {
+            color: var(--neon-green-subtle);
+        }
+
+        .progress__bar .bracket {
+            color: var(--neon-green-dark);
+        }
+
+        .progress__bar .percent {
+            color: var(--amber);
+        }
+
+        /* ════════════════════════════════════════════════
+           ETA LINE
+           ════════════════════════════════════════════════ */
+        .eta {
+            font-size: 0.68rem;
+            color: var(--text-comment);
+            margin-top: 0.8rem;
+            animation: slide-in 0.5s ease 2.3s both;
+        }
+
+        /* ════════════════════════════════════════════════
+           FOOTER — EMERGENCY CONTACT
+           ════════════════════════════════════════════════ */
+        .terminal__footer {
+            border-top: 1px solid var(--neon-green-subtle);
+            padding-top: 1.5rem;
+            animation: slide-in 0.5s ease 2.5s both;
+        }
+
+        .footer__override {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.3rem;
+        }
+
+        .footer__contact {
+            font-size: 0.82rem;
+            letter-spacing: 0.04em;
+        }
+
+        .footer__contact a {
+            color: var(--neon-green);
+            text-decoration: none;
+            border-bottom: 1px solid var(--neon-green-subtle);
+            transition: all 0.3s ease;
+            padding-bottom: 1px;
+        }
+
+        .footer__contact a:hover {
+            color: #66ff66;
+            border-bottom-color: #66ff66;
+            text-shadow:
+                0 0 5px var(--neon-green),
+                0 0 15px rgba(0, 255, 0, 0.4);
+        }
+
+        /* ════════════════════════════════════════════════
+           BACKGROUND GRID PATTERN (subtle)
+           ════════════════════════════════════════════════ */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.025;
+            background-image:
+                linear-gradient(var(--neon-green) 1px, transparent 1px),
+                linear-gradient(90deg, var(--neon-green) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* ════════════════════════════════════════════════
+           RESPONSIVE — Mobile
+           ════════════════════════════════════════════════ */
+        @media (max-width: 600px) {
+            html { font-size: 14px; }
+
+            .terminal {
+                width: 95%;
+                padding: 1.8rem 1.2rem;
+            }
+
+            .log-line {
+                font-size: 0.72rem;
+                line-height: 1.75;
+            }
+
+            .progress__bar {
+                font-size: 0.7rem;
+                word-break: break-all;
+            }
+        }
+
+        @media (max-width: 380px) {
+            html { font-size: 13px; }
+
+            .terminal {
+                padding: 1.5rem 1rem;
+            }
+
+            .terminal__status {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ════════════════════════════════════════════════
+           PRINT
+           ════════════════════════════════════════════════ */
+        @media print {
+            body::before, body::after, .bg-grid { display: none; }
+            body { background: #fff; color: #000; }
+            .glow, .glow-strong, .glow-amber { text-shadow: none; }
+        }
     </style>
 </head>
 <body>
-    <h1>HENDRATRYY.ME</h1>
-    <p>Physics Student @ Universitas Negeri Malang</p>
-    <p>Contact: <a class="contact" href="mailto:contact@hendratryy.me">contact@hendratryy.me</a></p>
-    <p>-- Current Project: Prototype AI --</p>
+
+    <!-- Background Grid -->
+    <div class="bg-grid" aria-hidden="true"></div>
+
+    <!-- ═══════════ TERMINAL ═══════════ -->
+    <main class="terminal" id="terminal" role="main">
+
+        <!-- System Status Header -->
+        <header class="terminal__header">
+            <p class="terminal__prompt">root@hendratryy:~$ systemctl status portfolio.service</p>
+            <h1 class="terminal__status glow-strong">
+                <span class="bracket">[</span>SYSTEM STATUS: MAINTENANCE MODE ACTIVE<span class="bracket">]</span><span class="cursor">█</span>
+            </h1>
+        </header>
+
+        <hr class="terminal__divider">
+
+        <!-- Log Messages -->
+        <div class="terminal__log">
+            <p class="log-line log-line--1 glow">
+                <span class="timestamp">[2026-06-06 23:00:01]</span>
+                <span class="level-warn"> WARN </span>
+                <span class="module">core.engine</span> — Initiating full system recompilation...
+            </p>
+            <p class="log-line log-line--2 glow">
+                <span class="timestamp">[2026-06-06 23:00:02]</span>
+                <span class="level-info"> INFO </span>
+                <span class="module">backend.api</span> — Rebuilding algorithm modules for v2.0 integration
+            </p>
+            <p class="log-line log-line--3 glow">
+                <span class="timestamp">[2026-06-06 23:00:04]</span>
+                <span class="level-info"> INFO </span>
+                <span class="module">physics.sim</span> — Loading new physics simulation engine...
+            </p>
+            <p class="log-line log-line--4 glow">
+                <span class="timestamp">[2026-06-06 23:00:07]</span>
+                <span class="level-info"> INFO </span>
+                <span class="module">renderer</span>&nbsp;&nbsp; — Compiling shader pipelines &amp; UI assets
+            </p>
+            <p class="log-line log-line--5 glow">
+                <span class="timestamp">[2026-06-06 23:00:11]</span>
+                <span class="level-info"> INFO </span>
+                <span class="module">deploy.srv</span> — Backend algorithm integration in progress
+            </p>
+            <p class="log-line log-line--6 glow">
+                <span class="timestamp">[2026-06-06 23:00:15]</span>
+                <span class="level-ok">&nbsp;&nbsp;OK&nbsp;&nbsp;</span>
+                <span class="module">scheduler</span>&nbsp; — All subsystems queued. Awaiting recompilation...
+            </p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-section">
+            <p class="progress__label glow">COMPILING NEW PORTFOLIO...</p>
+            <p class="progress__bar glow-strong">
+                <span class="bracket">[</span><span class="filled">==============================&gt;</span><span class="empty">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="bracket">]</span> <span class="percent">73%</span>
+            </p>
+            <p class="eta">EST. COMPLETION: WHEN ALL MODULES PASS INTEGRITY CHECK</p>
+        </div>
+
+        <!-- Footer -->
+        <footer class="terminal__footer">
+            <p class="footer__override glow-amber">EMERGENCY OVERRIDE / CONTACT:</p>
+            <p class="footer__contact glow">
+                &gt; <a href="mailto:contact@hendratryy.me" id="contact-link">contact@hendratryy.me</a>
+            </p>
+        </footer>
+
+    </main>
+
 </body>
 </html>

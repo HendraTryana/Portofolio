@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HENDRA CT — Player Profile // Season 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow+Condensed:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0d1b2e;
+            --navy-light: #132236;
+            --red: #EF0107;
+            --red-dark: #9C0003;
+            --white: #fff;
+            --w70: rgba(255,255,255,.7);
+            --w40: rgba(255,255,255,.4);
+            --w15: rgba(255,255,255,.15);
+            --w08: rgba(255,255,255,.08);
+            --oswald: 'Oswald', sans-serif;
+            --barlow: 'Barlow Condensed', sans-serif;
+        }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html, body { height:100%; }
+        body {
+            font-family: var(--barlow);
+            background: var(--navy);
+            color: var(--white);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ═══ TOP NAV ═══ */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: .8rem 2rem;
+            background: var(--navy);
+            border-bottom: 1px solid var(--w08);
+        }
+        .nav__brand {
+            font-family: var(--oswald);
+            font-weight: 700;
+            font-style: italic;
+            font-size: 1.2rem;
+        }
+        .nav__links { display:flex; gap:1.8rem; list-style:none; }
+        .nav__links a {
+            font-family: var(--barlow);
+            font-size: .8rem;
+            font-weight: 500;
+            color: var(--w40);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color .3s;
+        }
+        .nav__links a:hover, .nav__links a.on { color: var(--white); }
+        .crumb {
+            padding: .3rem 2rem;
+            font-size: .65rem;
+            color: var(--w40);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: var(--navy);
+        }
+
+        /* ═══ MAIN TWO-COLUMN FLEX — NEVER STACKS ═══ */
+        .main {
+            display: flex;
+            flex-direction: row;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* ═══ LEFT ═══ */
+        .left {
+            width: 55%;
+            min-width: 55%;
+            background: var(--navy);
+            padding: 2rem 2.5rem 2rem 3rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* giant faded 8 */
+        .bg8 {
+            position: absolute;
+            top: 50%; left: -8%;
+            transform: translateY(-50%);
+            font-family: var(--oswald);
+            font-size: 26rem;
+            font-weight: 700;
+            color: var(--white);
+            opacity: .03;
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* jersey number list */
+        .numlist {
+            position: absolute;
+            left: 1.2rem; top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: .7rem;
+        }
+        .numlist span {
+            font-family: var(--oswald);
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: var(--w15);
+        }
+        .numlist span.on {
+            color: var(--w70);
+            position: relative;
+        }
+        .numlist span.on::before {
+            content: '';
+            position: absolute;
+            left: -.7rem; top: 50%;
+            transform: translateY(-50%);
+            border-left: 5px solid var(--w40);
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+        }
+
+        .squad-title { position:relative; z-index:2; margin-bottom:.6rem; }
+        .squad-title i {
+            font-family: var(--barlow);
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--w70);
+            font-style: italic;
+            display: block;
+        }
+        .squad-title b {
+            font-family: var(--oswald);
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        .squad-title b em { font-style:normal; color:var(--red); }
+
+        /* badge */
+        .badge { position:relative; z-index:2; width:52px; height:58px; margin-bottom:.4rem; }
+        .badge svg { position:absolute; inset:0; width:100%; height:100%; }
+        .badge span {
+            position:relative; z-index:2;
+            display:flex; align-items:center; justify-content:center;
+            width:100%; height:100%;
+            font-family:var(--oswald); font-size:.6rem; font-weight:700;
+            color:var(--white); text-align:center; line-height:1.1; letter-spacing:1px;
+        }
+
+        /* player name */
+        .pname { position:relative; z-index:2; margin-bottom:.3rem; }
+        .pname__num {
+            font-family:var(--oswald); font-size:2.5rem; font-weight:300;
+            color:var(--w40); line-height:1;
+        }
+        .pname__first {
+            font-family:var(--barlow); font-size:1.4rem; font-weight:300;
+            color:var(--w70); letter-spacing:2px;
+        }
+        .pname__last {
+            font-family:var(--oswald); font-size:5rem; font-weight:700;
+            text-transform:uppercase; letter-spacing:4px; line-height:.9;
+        }
+        .pname__pos {
+            font-family:var(--oswald); font-size:1.3rem; font-weight:500;
+            text-transform:uppercase; letter-spacing:3px;
+            margin-top:.2rem; display:block;
+        }
+
+        /* photo */
+        .photo {
+            position:relative; z-index:2;
+            display:flex; justify-content:center;
+            margin:1.2rem 0;
+        }
+        .photo img {
+            max-width:240px; width:100%; height:auto; display:block;
+            filter: sepia(12%) contrast(1.05) drop-shadow(0 8px 20px rgba(0,0,0,.5));
+        }
+
+        /* bio */
+        .bio {
+            position:relative; z-index:2;
+            font-size:.85rem; font-weight:300;
+            color:var(--w70); line-height:1.7;
+            max-width:420px; letter-spacing:.3px;
+            margin-bottom:auto;
+        }
+
+        /* info row */
+        .inforow {
+            position:relative; z-index:2;
+            display:flex; gap:1.5rem;
+            padding-top:1.2rem;
+            border-top:1px solid var(--w08);
+            margin-top:1.2rem;
+        }
+        .inforow > div { flex:1; }
+        .inforow dt {
+            font-size:.6rem; font-weight:400;
+            text-transform:uppercase; letter-spacing:2px;
+            color:var(--w40); margin-bottom:.2rem;
+        }
+        .inforow dd {
+            font-family:var(--oswald); font-size:.9rem; font-weight:500;
+            letter-spacing:1px;
+        }
+
+        /* ═══ RIGHT ═══ */
+        .right {
+            width: 45%;
+            min-width: 45%;
+            background: var(--navy-light);
+            border-left: 1px solid var(--w08);
+            padding: 2rem 1.8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .shead { text-align:center; margin-bottom:1.2rem; }
+        .shead h2 {
+            font-family:var(--oswald); font-size:.9rem; font-weight:500;
+            letter-spacing:4px; text-transform:uppercase; margin-bottom:.6rem;
+        }
+        .toggle { display:flex; align-items:center; justify-content:center; gap:.8rem; }
+        .toggle span {
+            font-size:.65rem; font-weight:400;
+            text-transform:uppercase; letter-spacing:2px;
+            color:var(--w40); cursor:pointer; transition:color .3s;
+        }
+        .toggle span.on { color:var(--white); }
+        .track {
+            width:44px; height:3px; background:var(--w15);
+            border-radius:2px; position:relative; cursor:pointer;
+        }
+        .knob {
+            width:12px; height:12px; background:var(--white);
+            border-radius:50%; position:absolute; top:50%; left:0;
+            transform:translateY(-50%); transition:left .3s;
+            box-shadow:0 0 6px rgba(255,255,255,.3);
+        }
+
+        /* donuts container */
+        .donuts {
+            flex:1;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            gap:1.2rem;
+            width:100%;
+        }
+        .drow {
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:.6rem;
+        }
+        .dlabel {
+            writing-mode:vertical-rl;
+            transform:rotate(180deg);
+            font-size:.6rem; font-weight:400;
+            text-transform:uppercase; letter-spacing:2px;
+            color:var(--w40); white-space:nowrap;
+            width:16px; text-align:center;
+        }
+        .dchart {
+            width:140px; height:140px;
+            position:relative; flex-shrink:0;
+        }
+        .dchart svg {
+            width:100%; height:100%;
+            transform:rotate(-90deg);
+        }
+        .dtrack { fill:none; stroke:var(--w08); stroke-width:7; }
+        .dfill {
+            fill:none; stroke-width:7; stroke-linecap:round;
+            transition: stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1);
+        }
+        .dfill--r { stroke:var(--red); }
+        .dfill--b { stroke:#3a5f8a; }
+        .dfill--g { stroke:#c5a045; }
+        .dcenter {
+            position:absolute; inset:0;
+            display:flex; align-items:center; justify-content:center;
+        }
+        .dcenter span {
+            font-family:var(--oswald); font-size:1.7rem; font-weight:600;
+            letter-spacing:1px;
+        }
+
+        .cbtn {
+            display:block; margin-top:1.2rem;
+            padding:.5rem 2rem;
+            font-family:var(--barlow);
+            font-size:.7rem; font-weight:500;
+            letter-spacing:2px; text-transform:uppercase;
+            color:var(--white); background:transparent;
+            border:1px solid var(--w40); cursor:pointer;
+            text-decoration:none;
+            transition:all .3s;
+        }
+        .cbtn:hover {
+            background:var(--red); border-color:var(--red);
+            box-shadow:0 0 18px rgba(239,1,7,.3);
+        }
+
+        /* ═══ RESPONSIVE: keep side-by-side, just shrink ═══ */
+        @media(max-width:720px){
+            .main { flex-direction:row; } /* NEVER column */
+            .left { padding:1.2rem 1rem 1.2rem 1.5rem; }
+            .right { padding:1.2rem .8rem; }
+            .pname__last { font-size:3rem; }
+            .pname__pos { font-size:1rem; letter-spacing:2px; }
+            .squad-title b { font-size:1.4rem; }
+            .bg8 { font-size:14rem; }
+            .numlist { display:none; }
+            .photo img { max-width:160px; }
+            .bio { font-size:.75rem; }
+            .dchart { width:100px; height:100px; }
+            .dcenter span { font-size:1.2rem; }
+            .dlabel { font-size:.5rem; letter-spacing:1px; }
+            .inforow { flex-direction:column; gap:.6rem; }
+            .inforow dd { font-size:.75rem; }
+            .nav { padding:.5rem 1rem; }
+            .nav__links { gap:.8rem; }
+            .nav__links a { font-size:.7rem; }
+            .crumb { padding:.2rem 1rem; font-size:.55rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav__brand">PlayerCard</div>
+    <ul class="nav__links">
+        <li><a href="#" class="on">Teams</a></li>
+        <li><a href="#">Players</a></li>
+        <li><a href="#">Matches</a></li>
+    </ul>
+</nav>
+<div class="crumb">TEAMS › PHYSICS SQUAD › ROSTER</div>
+
+<div class="main">
+
+    <!-- ═══ LEFT COLUMN ═══ -->
+    <div class="left">
+        <div class="bg8" aria-hidden="true">8</div>
+
+        <div class="numlist" aria-hidden="true">
+            <span>2</span><span>3</span><span class="on">8</span><span>5</span><span>6</span>
+        </div>
+
+        <div class="squad-title">
+            <i>Hendra's</i>
+            <b>PHYSICS <em>SQUAD</em></b>
+        </div>
+
+        <div class="badge">
+            <svg viewBox="0 0 52 58" fill="none">
+                <path d="M26 2 L49 16 L49 42 L26 56 L3 42 L3 16Z" fill="#EF0107" stroke="#9C0003" stroke-width="2"/>
+                <path d="M26 9 L42 19 L42 39 L26 49 L10 39 L10 19Z" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+            </svg>
+            <span>UM<br>FC</span>
+        </div>
+
+        <div class="pname">
+            <div class="pname__num">8</div>
+            <div class="pname__first">Hendra</div>
+            <div class="pname__last">CT</div>
+            <span class="pname__pos">Backend Playmaker</span>
+        </div>
+
+        <div class="photo">
+            <img src="assets/profile.png" alt="Hendra CT">
+        </div>
+
+        <p class="bio">A versatile midfielder with exceptional vision in backend architecture. Operates from deep positions, orchestrating complex data pipelines and API structures with surgical precision. Known for composure under pressure and a relentless work ethic forged through late-night coding sessions.</p>
+
+        <dl class="inforow">
+            <div><dt>Current Club</dt><dd>UM / Arsenal FC</dd></div>
+            <div><dt>Preferred Foot</dt><dd>Python (Right)</dd></div>
+            <div><dt>Contract</dt><dd>2024 — Present</dd></div>
+        </dl>
+    </div>
+
+    <!-- ═══ RIGHT COLUMN ═══ -->
+    <div class="right">
+        <div class="shead">
+            <h2>Stats</h2>
+            <div class="toggle">
+                <span class="on" id="lb">Bio</span>
+                <div class="track" id="tr"><div class="knob" id="kn"></div></div>
+                <span id="lp">Photos</span>
+            </div>
+        </div>
+
+        <div class="donuts">
+            <!-- 98% Python Mastery -->
+            <div class="drow">
+                <div class="dlabel">Python Mastery</div>
+                <div class="dchart">
+                    <svg viewBox="0 0 140 140">
+                        <circle class="dtrack" cx="70" cy="70" r="56"/>
+                        <circle class="dfill dfill--r" cx="70" cy="70" r="56"
+                            stroke-dasharray="351.9" stroke-dashoffset="351.9" data-to="7"/>
+                    </svg>
+                    <div class="dcenter"><span>98%</span></div>
+                </div>
+            </div>
+
+            <!-- 87% Passes Completed -->
+            <div class="drow">
+                <div class="dlabel">Passes Completed</div>
+                <div class="dchart">
+                    <svg viewBox="0 0 140 140">
+                        <circle class="dtrack" cx="70" cy="70" r="56"/>
+                        <circle class="dfill dfill--b" cx="70" cy="70" r="56"
+                            stroke-dasharray="351.9" stroke-dashoffset="351.9" data-to="45.7"/>
+                    </svg>
+                    <div class="dcenter"><span>87%</span></div>
+                </div>
+            </div>
+
+            <!-- 90% Systems Architecture -->
+            <div class="drow">
+                <div class="dlabel">Systems Arch.</div>
+                <div class="dchart">
+                    <svg viewBox="0 0 140 140">
+                        <circle class="dtrack" cx="70" cy="70" r="56"/>
+                        <circle class="dfill dfill--g" cx="70" cy="70" r="56"
+                            stroke-dasharray="351.9" stroke-dashoffset="351.9" data-to="35.2"/>
+                    </svg>
+                    <div class="dcenter"><span>90%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <a href="mailto:contact@hendratryy.me" class="cbtn">Initiate Contract</a>
+    </div>
+</div>
+
+<script>
+    // Animate donuts on load
+    window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            document.querySelectorAll('.dfill').forEach(c => {
+                c.style.strokeDashoffset = c.dataset.to;
+            });
+        }, 400);
+    });
+
+    // Toggle
+    const kn = document.getElementById('kn');
+    const tr = document.getElementById('tr');
+    const lb = document.getElementById('lb');
+    const lp = document.getElementById('lp');
+    let t = false;
+    tr.onclick = () => {
+        t = !t;
+        kn.style.left = t ? '32px' : '0';
+        lb.classList.toggle('on', !t);
+        lp.classList.toggle('on', t);
+    };
+</script>
+</body>
+</html>
